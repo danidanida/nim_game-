@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="./withplayer.css">
+    <script src="https://kit.fontawesome.com/798f81f169.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nim Game</title>
+</head>
+
+<body>
+    <div id="centeredGame">
+    <h1 class="ml2">NIM GAME</h1>
+
+    <p><i class="fas fa-user"></i> play with <i class="fas fa-user"></i>. You enter a number one by one. The one who first will reach the Maximum will get <i class="fas fa-trophy"></i></p>
+    <div id="preGame">
+
+        <label>We are playing from 0 to max num:</label>
+        <input type="number" id='inputMax'>
+
+        <label>And adding numbers from 1 to max num:</label>
+        <input type="number" id='inputAddMax'>
+
+        <button class = "button" id="btnStart" >Start the Game </button> 
+
+    
+    </div>
+
+    <div id="game">
+
+        <h1>Let's start</h1>
+    
+    <div id = "humanGame">
+        <label>Enter your number, player 1</label>
+        <input type="number" id='humanInput'>
+        <button class = "button" id="humanChoice">Let us know your choice</button>
+        <h2 id="humanOutput"></h2>
+    </div>
+
+    <div id = "human2Game">
+    <label>Enter your number, player 2</label>
+    <input type="number" id='human2Input'>
+    <button class = "button" id="human2Choice">Let us know your choice</button>
+    <h2 id="human2Output"></h2>
+</div>
+    
+        <h2 id="sumOutput"> </h2>
+
+    </div>
+    <button class = "button" onclick="document.location='./mainpage.html'"> Back to Menu</button>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+<script src="./withplayer.js"></script>
+</html>
