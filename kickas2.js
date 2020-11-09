@@ -19,8 +19,14 @@ var machine = "machine";
 var human = "human";
 var currPlayer = "";
 var sum = 0;
-var machineRandom = 0;
 
+var reminder = 0;
+var max = 0;
+var addMax = 0;
+
+var cycleSize = 0; 
+
+var isCompFirst, compNumber, firstNumberToAdd
 
 function getRandom(from, to) {
     return Math.floor(Math.random() * to) + from
@@ -28,37 +34,44 @@ function getRandom(from, to) {
 
 // functions pre-game 
 function showGame() {
-    if (inputAddMax.value == 9 && inputMax.value == 100) {
+    if (+inputAddMax.value < +inputMax.value) {
         document.getElementById('game').style.display = 'block';
+        max = +inputMax.value
+        addMax = +inputAddMax.value
         startGame()
         btnStart.disabled = true;
+        return max, addMax
     }
 }
 
 function startGame() {
-    var whoIsFirst = getRandom(1, 2)
-    if (whoIsFirst === 1) {
-
-        humanTurn()
-        currPlayer = human
-
-    } else
-
+    cycleSize = addMax + 1  
+    reminder = max % cycleSize;
+    if (reminder > 0) {
+        isCompFirst = true
+        currPlayer = machine
+        compNumber = reminder
+        firstNumberToAdd = reminder
         machineTurn()
-    currPlayer = machine
-
+    } else {
+        isCompFirst = false
+        currPlayer = human 
+        firstNumberToAdd = 0
+        humanTurn()
+    }
+    return compNumber, firstNumberToAdd
 }
 
 
 
 function humanTurn() {
-
     machineChoice.disabled = true;
     humanChoice.disabled = false;
     if (+humanInput.value != "" && +humanInput.value <= +inputAddMax.value) {
         humanOutput.innerHTML = "Human's choice is " + +humanInput.value
 
         currPlayer = human
+
         sum = sum + +humanInput.value
         sumOutput.innerHTML = "Sum is " + sum 
 
@@ -73,37 +86,29 @@ else {humanOutput.innerHTML = "Please enter a number from 0 to " + inputAddMax.v
     
 
 }
-var numOfTrials = 0;
 
-// ПОПЫТКА ВЫИГРЫШНОЙ СТРАТЕГИИ ДЛЯ КОМПЬЮТЕРА
 
  function machineTurn() {
-    numOfTrials++ 
+
     humanChoice.disabled = true;
     machineChoice.disabled = false;
     currPlayer = machine
 
-    if (sum === 0) {
-        machineRandom = getRandom(1, +inputAddMax.value);
-        machineOutput.innerHTML = "Machine's choice is " + machineRandom
-        sum = sum + machineRandom 
+    compNumber = cycleSize - ((sum - firstNumberToAdd) % cycleSize)
+
+if (compNumber > cycleSize) {compNumber = compNumber - cycleSize}
+else if (compNumber === cycleSize) {compNumber = 1 }
+
+        machineOutput.innerHTML = "Machine's choice is " + compNumber
+        sum = sum + compNumber 
         sumOutput.innerHTML = "Sum is " + sum
-    }
-    else {
-        machineRandom = (10 * numOfTrials) - sum
-        if (machineRandom > +inputAddMax.value) {machineRandom = getRandom(1, +inputAddMax.value)}
-        else 
-        machineOutput.innerHTML = "Machine's choice is " + machineRandom
-        sum = sum + machineRandom 
-        sumOutput.innerHTML = "Sum is " + sum
-    }
+
     machineChoice.disabled = true;
     humanChoice.disabled = false;
 
     if (sum >= +inputMax.value) {
         sumOutput.innerHTML = "Machine is winner"
     }
-
 } 
 // EventListeners 
 
@@ -111,6 +116,9 @@ var numOfTrials = 0;
 btnStart.addEventListener('click', showGame)
 machineChoice.addEventListener('click', machineTurn)
 humanChoice.addEventListener('click', humanTurn)
+
+
+
 
 
 // CSS 
